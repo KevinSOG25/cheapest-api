@@ -4,7 +4,10 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../datasources/database.module';
 
 // Clients
-import { TiendaClientMock } from './clients';
+// aca se elimino el import del mock de la tienda
+
+// Importar el modulo 
+import { IdentificacionModule } from 'src/identificacion/identificacion.module';
 
 // Repositories
 import {
@@ -47,7 +50,7 @@ import {
 import { repositoryProviders } from './repositories/repository.providers';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule,IdentificacionModule],
   controllers: [
     CatalogoController,
     ProductoController,
@@ -82,7 +85,7 @@ import { repositoryProviders } from './repositories/repository.providers';
     CatalogoProductoService,
     TenderoService,
     // Mock Clients
-    TiendaClientMock,
+    // se elimina de igual manera aca el mock ya que no se necesita 
   ],
   exports: [
     CatalogoService,
