@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { TiendaService } from 'src/identificacion/tienda/tienda.service';
+import { TiendaService } from 'src/identificacion/services/tienda.service';
 import {
   CatalogoResponseDto,
   CreateCatalogoDto,
@@ -18,7 +18,7 @@ export class CatalogoService {
   constructor(
     private readonly catalogoRepository: CatalogoRepository,
     private readonly tiendaService: TiendaService,
-  ) {}
+  ) { }
 
   async create(dto: CreateCatalogoDto): Promise<CatalogoResponseDto> {
     const tiendaExists = await this.tiendaService.findById(dto.tiendaId);

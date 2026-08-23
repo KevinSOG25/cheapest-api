@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { TiendaService } from 'src/identificacion/tienda/tienda.service';
+import { TiendaService } from 'src/identificacion/services/tienda.service';
 import {
   CreatePedidoDto,
   ItemPedidoResponseDto,
@@ -20,7 +20,7 @@ export class PedidoService {
     private readonly pedidoRepository: PedidoRepository,
     private readonly productoRepository: ProductoRepository,
     private readonly tiendaService: TiendaService,
-  ) {}
+  ) { }
 
   async create(dto: CreatePedidoDto): Promise<PedidoResponseDto> {
     // Validar que la tienda existe

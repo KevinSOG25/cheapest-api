@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
-import { TiendaService } from './tienda.service';
-import { CreateTiendaDto } from './dto/create-tienda.dto';
-import { UpdateTiendaDto } from './dto/update-tienda.dto';
+import { TiendaService } from '../services/tienda.service';
+import { CreateTiendaDto } from '../dto/create-tienda.dto';
+import { UpdateTiendaDto } from '../dto/update-tienda.dto';
 
 @Controller('tienda')
 export class TiendaController {

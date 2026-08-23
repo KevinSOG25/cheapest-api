@@ -1,6 +1,6 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { TiendaClientMock } from '../clients';
+import { TiendaService } from 'src/identificacion/services/tienda.service';
 import {
   CreateCatalogoDto,
   QueryCatalogoDto,
@@ -12,7 +12,7 @@ import { CatalogoService } from './catalogo.service';
 describe('CatalogoService', () => {
   let service: CatalogoService;
   let repository: jest.Mocked<CatalogoRepository>;
-  let tiendaClient: jest.Mocked<TiendaClientMock>;
+  let tiendaClient: jest.Mocked<TiendaService>;
 
   beforeEach(async () => {
     const mockRepository = {
@@ -23,7 +23,7 @@ describe('CatalogoService', () => {
       delete: jest.fn(),
     };
     const mockTiendaClient = {
-      exists: jest.fn(),
+      findById: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -34,7 +34,7 @@ describe('CatalogoService', () => {
           useValue: mockRepository,
         },
         {
-          provide: TiendaClientMock,
+          provide: TiendaService,
           useValue: mockTiendaClient,
         },
       ],
@@ -42,7 +42,7 @@ describe('CatalogoService', () => {
 
     service = module.get<CatalogoService>(CatalogoService);
     repository = module.get(CatalogoRepository);
-    tiendaClient = module.get(TiendaClientMock);
+    tiendaClient = module.get(TiendaService);
   });
 
   it('should be defined', () => {
@@ -64,17 +64,17 @@ describe('CatalogoService', () => {
         updatedAt: new Date(),
       };
 
-      tiendaClient.exists.mockResolvedValue(true);
+      tiendaClient.findById.mockResolvedValue(entity as any);
       repository.create.mockResolvedValue(entity as any);
 
       const result = await service.create(dto);
 
-      expect(tiendaClient.exists).toHaveBeenCalledWith(dto.tiendaId);
+      expect(tiendaClient.findById).toHaveBeenCalledWith(dto.tiendaId);
       expect(repository.create).toHaveBeenCalledWith(dto);
       expect(result.id).toBe('catalogo-1');
     });
 
-    it('should throw BadRequestException if tienda does not exist', async () => {
+    it('should throw NotFoundException if tienda does not exist', async () => {
       const dto: CreateCatalogoDto = {
         tiendaId: 'tienda-1',
         vigenciaDesde: new Date('2024-01-01'),
@@ -82,9 +82,11 @@ describe('CatalogoService', () => {
         zona: 'Zona A',
       };
 
-      tiendaClient.exists.mockResolvedValue(false);
+      tiendaClient.findById.mockRejectedValue(
+        new NotFoundException('Tienda con id tienda-1 no encontrada'),
+      );
 
-      await expect(service.create(dto)).rejects.toThrow(BadRequestException);
+      await expect(service.create(dto)).rejects.toThrow(NotFoundException);
       expect(repository.create).not.toHaveBeenCalled();
     });
   });
