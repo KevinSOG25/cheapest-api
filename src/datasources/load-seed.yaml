@@ -12,37 +12,37 @@ load:
   # =============================================================
 
   # --- Dimensiones del negocio ---
-  tiendas: 5          # placeholder — ¿cuántas tiendas modela su ciudad?
-  zonas: 3            # placeholder — ¿cuántas zonas y cuál es la "cabeza"?
+  tiendas: 750         # placeholder — ¿cuántas tiendas modela su ciudad?
+  zonas: 19          # placeholder — ¿cuántas zonas y cuál es la "cabeza"?
 
   # Distribución de la actividad sobre tiendas/zonas/productos.
   # Sin esta llave el seeder reparte todo de forma uniforme (round-robin).
   # Descoméntela y ajústela para modelar la concentración real:
-  # distribucion:
-  #   tipo: pareto
-  #   peso_cabeza: 0.8       # fracción de la actividad que cae en la cabeza
-  #   fraccion_cabeza: 0.2   # tamaño de la cabeza respecto del pool
+  distribucion:
+    tipo: pareto
+    peso_cabeza: 0.8       # fracción de la actividad que cae en la cabeza
+    fraccion_cabeza: 0.2   # tamaño de la cabeza respecto del pool
   # Para 200 pedidos
   # el 80% de actividad (160 pedidos) van a asignarse a Tienda "cabeza" 
   # el 20% de actividad (40 pedidos) van a asignarse a Tiendas "cola"
 
   # --- Logística ---  (placeholders — ajuste cada conteo y su razón)
-  productos: 100
-  catalogos: 10
-  catalogos_productos: 200
-  promociones: 20
-  pedidos: 200
-  items_pedido: 400
-  despachos: 100
-  disponibilidad_zona: 200
-  notas_credito: 20
+  productos: 1200
+  catalogos: 19
+  catalogos_productos: 18240
+  promociones: 240
+  pedidos: 3000
+  items_pedido: 18000
+  despachos: 3000
+  disponibilidad_zona: 22800
+  notas_credito: 150
 
   # --- Inventario ---
-  items_inventario: 100
-  registros_compra_producto_tienda: 100
-  registros_venta_producto_tienda: 100
+  items_inventario: 90000
+  registros_compra_producto_tienda: 30000
+  registros_venta_producto_tienda: 90000
 
   # --- Ventas ---
-  productos_externos: 30
-  ventas: 100
-  items_venta: 200
+  productos_externos: 340
+  ventas: 6000
+  items_venta: 24000
