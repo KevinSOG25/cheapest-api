@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { EventoPedido } from './entities/evento-pedido.entity';
 
 @Injectable()
@@ -9,8 +9,13 @@ export class EventoPedidoRepository {
     private readonly repository: Repository<EventoPedido>,
   ) {}
 
-  async nextVersion(pedidoId: string): Promise<number> {
-    const lastEvent = await this.repository.findOne({
+  /**
+   * Retorna la siguiente versión del event stream del pedido.
+   * Si se pasa un EntityManager, la lectura se hace dentro de esa transacción.
+   */
+  async nextVersion(pedidoId: string, manager?: EntityManager): Promise<number> {
+    const repo = manager ? manager.getRepository(EventoPedido) : this.repository;
+    const lastEvent = await repo.findOne({
       where: { pedidoId },
       order: { version: 'DESC' },
     });

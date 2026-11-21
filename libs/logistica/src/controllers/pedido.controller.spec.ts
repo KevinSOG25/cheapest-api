@@ -63,6 +63,8 @@ describe('PedidoController', () => {
       const response: PedidoResponseDto = {
         id: 'ped-1',
         ...dto,
+        estado: EstadoPedido.CREADO,
+        items: [],
         createdAt: new Date(),
         updatedAt: new Date(),
       };

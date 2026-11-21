@@ -103,10 +103,8 @@ export class PedidoService {
           relations: ['items'],
         });
 
-        // TODO (estudiante — Tarea 1.2): completar appendEvent
-        // Debe calcular la siguiente versión usando eventoPedidoRepository.nextVersion(id)
-        // y guardar el evento PedidoCambioEstado con version, estadoAnterior y estadoNuevo.
-        const version = await this.eventoPedidoRepository.nextVersion(id);
+        // Tarea 1.2: el evento se registra dentro de la misma transacción que el UPDATE.
+        const version = await this.eventoPedidoRepository.nextVersion(id, manager);
         await manager.save(EventoPedido, {
           pedidoId: id,
           tipo: 'PedidoCambioEstado',
